@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Memberikan Tambahan Watermark pada Rstudio RMarkdown</title>
+
+<script src="site_libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="program.html">Program</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Memberikan Tambahan Watermark pada Rstudio RMarkdown</h1>
+
+</div>
+
+
+<p>Hallo gais kembali lagi di website saya!!!!!</p>
+<p><img src="data:image/jpeg;base64,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" /></p>
+<p>Pada website ini saya akan menambahkan watermark pada Rstudio</p>
+<div id="pengertian-watermark" class="section level1">
+<h1>Pengertian Watermark</h1>
+<p>Watermark merupakan sebuah tanda kepemilikan dalam hal ini ialah foto/gambar maupun video berupa tulisan kecil/logo yang terlihat mengambang pada sebuah gambar maupun video.</p>
+</div>
+<div id="fungsi-watermark" class="section level1">
+<h1>Fungsi Watermark</h1>
+<p>Watermark berfungsi untuk memberikan bukti kuat kalau gambar maupun video yang kita upload adalah pemilik resmi dari yang memciptakan.</p>
+</div>
+<div id="kelebihan-menggunakan-watermark" class="section level1">
+<h1>Kelebihan Menggunakan Watermark</h1>
+<ol style="list-style-type: decimal">
+<li><p>Meminimalisir gambar atatu video kita diambil atau bahasa kasarnya dicolong seseorang, mengingat sudah ada tanda pengenal/kepemilikan gambar atau video tersebut.</p></li>
+<li><p>Jika gambar/video kita diambil orang secara tidak langsung nama website atau channel kita akan tenar atau akan dikunjungi karena ingin tahu isi konten didalamnya.</p></li>
+<li><p>Dapat mendatangkan backlink, bukan tidak mungkin pengunjung blog kita jadi bertambah dari backlink tersebut.</p></li>
+<li><p>Selain untuk melindungi gambar/video yang kita ciptakan, jika kita menggunakan watermark mempunyai seni tersendiri apabila penempatan watermark itu tidak menganggu keindahan gambar. Biasanya watermark diletakan dipojok bawah kiri/kanan atau atas kiri/kanan dengan opasitas yang bisa disesuaikan dengan keinginan kita.</p></li>
+</ol>
+</div>
+<div id="kekurangan-menggunakan-watermark" class="section level1">
+<h1>Kekurangan Menggunakan Watermark</h1>
+<ol style="list-style-type: decimal">
+<li><p>Akan dicap pelit lantaran adanya watermark pada foto/video yang diposting dan tidak bisa dipakai orang lain.</p></li>
+<li><p>Jika salah menempatkan watermark akan dapat menggangu tampilan gambar.</p></li>
+</ol>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
